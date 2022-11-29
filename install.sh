@@ -49,6 +49,7 @@ set_copy(){
 
   cp -rv .config/* $dir/
   cp -rv zshrc $HOME/.zshrc
+  cp -rv .xinitrc $HOME/.xinitrc
 }
 
 case "$1" in
