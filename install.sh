@@ -22,19 +22,19 @@ fi
 set_backup(){
 
   if [ -d "$dir/bspwm" ]; then
-    mv $dir/bspwm/* $dir/bspwm/*.bak
+    mv $dir/bspwm $dir/bspwm.bak
   fi
 
   if [ -d "$dir/i3" ]; then
-    mv $dir/i3/* $dir/bspwm/*.bak
+    mv $dir/i3 $dir/i3.bak
   fi
 
   if [ -d "$dir/polybar" ]; then
-    mv $dir/polybar/* $dir/polybar/*.bak
+    mv $dir/polybar $dir/polybar.bak
   fi
 
   if [ -d "$dir/sxhkd" ]; then
-    mv $dir/sxhkd/* $dir/sxhkd/*.bak
+    mv $dir/sxhkd $dir/sxhkd.bak
   fi
 
   if [ -f "$HOME/.zshrc" ]; then
@@ -47,11 +47,11 @@ set_copy(){
 
   set_backup
 
-  cp -r bspwm/* $dir/bspwm/
-  cp -r i3/* $dir/i3/*
-  cp -r polybar/* $dir/polybar/*
-  cp -r sxhkd/* $dir/sxhkd/*
-  cp -r zshrc $HOME/
+  cp -r bspwm $dir/
+  cp -r i3 $dir/
+  cp -r polybar $dir/
+  cp -r sxhkd $dir/
+  cp -r zshrc $HOME/.zshrc
 
   mv $HOME/zshrc $HOME/.zshrc
 }
