@@ -1,0 +1,17 @@
+#!/bin/env bash
+
+#picom --experimental-backend &
+killall shxkd && pgrep -x sxhkd > /dev/null || sxhkd &
+nitrogen --restore &
+xsetroot -cursor_name left_ptr &
+numlockx &
+nm-applet &
+feh --bg-scale $HOME/Pictures/6.jpg
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+$HOME/.config/polybar/launch.sh &
+
+$HOME/.touchpad.sh
+
+if [ -x $HOME/.config/bspwm/dual_monitor ];then
+    $HOME/.config/bspwm/dual_monitor
+fi
