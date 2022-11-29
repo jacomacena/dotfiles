@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# set up the two monitors for bspwm
+# NOTE This is a simplistic approach because I already know the settings I
+# want to apply.
+external_monitor=$(xrandr --query | grep 'HDMI1')
+if [[ $external_monitor = *connected* ]]; then
+    xrandr --output eDP1 --primary --mode 1366x768 --rotate normal --output HDMI1 --mode 1920x1080i --rotate normal --right-of eDP1
+fi
