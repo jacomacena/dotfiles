@@ -45,7 +45,7 @@ source $HOME/.config/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting
 source $HOME/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 #alias
-source ~/.alias/aliases.sh
+source ~/.config/alias/aliases.sh
 
 # theme
 autoload -U promptinit; promptinit

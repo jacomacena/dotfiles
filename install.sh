@@ -47,13 +47,8 @@ set_copy(){
 
   set_backup
 
-  cp -r bspwm $dir/
-  cp -r i3 $dir/
-  cp -r polybar $dir/
-  cp -r sxhkd $dir/
-  cp -r zshrc $HOME/.zshrc
-
-  mv $HOME/zshrc $HOME/.zshrc
+  cp -rv .config/* $dir/
+  cp -rv zshrc $HOME/.zshrc
 }
 
 case "$1" in
