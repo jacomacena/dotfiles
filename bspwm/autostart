@@ -10,7 +10,7 @@ feh --bg-scale $HOME/Pictures/6.jpg
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 $HOME/.config/polybar/launch.sh &
 
-$HOME/.touchpad.sh
+$HOME/.config/.touchpad.sh
 
 if [ -x $HOME/.config/bspwm/dual_monitor ];then
     $HOME/.config/bspwm/dual_monitor
