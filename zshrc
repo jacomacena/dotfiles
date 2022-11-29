@@ -1,7 +1,7 @@
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
-HISTSIZE=10
-SAVEHIST=10
+HISTSIZE=0
+SAVEHIST=0
 bindkey -e
 
 # bindkeys
@@ -41,8 +41,8 @@ export VISUAL="vim"
 
 ### CUSTOM ###
 #plugins
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-#source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/.config/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $HOME/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 #alias
 source ~/.alias/aliases.sh
