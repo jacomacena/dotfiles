@@ -37,7 +37,7 @@ font xft:hack nerd bold 7
 # $Mod = Super or Alt?
 set $Mod Mod4
 #set $Mod Mod1
-set $apps Apps: web (w), files (f), code (c), spotify (s), telegram (t), virtualbox (v)
+set $apps Apps: web (w), files (f), code (c), telegram (t), virtualbox (v), libreoffice (l), music (m)
 
 # direction keys
 set $up i
@@ -150,13 +150,12 @@ default_orientation horizontal
 ##################     Autostart      #####################
 ###########################################################
 
-exec_always --no-startup-id sh -c 'command -v picom >/dev/null && picom --config "$HOME/.config/i3/compton.conf" || compton --config "$HOME/.config/i3/compton.conf"'
-exec_always --no-startup-id nitrogen --restore
+exec_always --no-startup-id picom --config "$HOME/.config/i3/compton.conf"
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always --no-startup-id feh --bg-fill $HOME/.config/pictures/1.jpg
 exec_always --no-startup-id nm-applet
 exec_always --no-startup-id numlockx on
-exec_always --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec_always --no-startup-id sh -c '[ -x /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 ] && /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1'
 
 
 ###########################################################
@@ -166,8 +165,8 @@ exec_always --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-ag
 # hide/unhide i3status bar
 #bindsym $Mod+m bar mode toggle
 
-bindsym $Mod+m exec --no-startup-id xdo hide -N "Polybar"
-bindsym $Mod+s exec --no-startup-id xdo show -N "Polybar"
+bindsym $Mod+m exec --no-startup-id polybar-msg cmd hide
+bindsym $Mod+s exec --no-startup-id polybar-msg cmd show
 
 ################################################################
 ###########          Workspace Bindings          ###############
@@ -232,15 +231,13 @@ bindsym $Mod+Mod1+Right workspace next
 #for_window [title="(?i)(?:terminator)"] floating enable
 for_window [title="alsamixer"] floating enable border pixel 1
 for_window [class="GParted"] floating enable border normal
-for_window [class="Nitrogen"] floating enable sticky enable border normal
 for_window [class="Pavucontrol"] floating enable
 for_window [title="sudo"] floating enable border normal
 for_window [class="(?i)virtualbox"] floating enable border normal
-for_window [class="(?i)spotify"] floating enable border pixel 1
-for_window [class="(?i)gnome-calculator"] floating enable border pixel 1
-for_window [class="(?i)(?:qt5ct|pinentry)"] floating enable, focus
-for_window [class="(?i)(?:termite|thunar|pcmanfm)"] focus
-for_window [class="(?i)(?:code|Brackets|atom|firefox|google-chrome)"]  focus
+for_window [class="(?i)(?:gsimplecal|lxappearance|blueman-manager|file-roller|xarchiver)"] floating enable border pixel 1
+for_window [class="(?i)(?:pinentry)"] floating enable, focus
+for_window [class="(?i)(?:terminator|pcmanfm)"] focus
+for_window [class="(?i)(?:code|firefox|google-chrome|libreoffice|soffice)"]  focus
 
 # Assign Applications to specific workspace
 # get class with xprop
@@ -252,15 +249,13 @@ assign [class="(?i)(?:firefox)"] → $ws2
 assign [class="(?i)(?:google-chrome)"] → $ws2
 
 # # W3 #
-#assign [class="(?i)(?:thunar)"]  → $ws3
 assign [class="(?i)(?:pcmanfm)"]  → $ws3
 
 # # W4 #
-assign [class="(?i)(?:spotify)"]   → $ws4
 assign [class="(?i)(?:transmission-gtk)"]  → $ws4
+assign [class="(?i)(?:vlc)"]  → $ws4
 
 # # W5 #
-#assign [class="(?i)(?:pidgin)"]  → $ws5
 assign [class="(?i)(?:telegram)"]   → $ws5
 
 # # W6 #
@@ -268,22 +263,16 @@ assign [class="(?i)(?:libreoffice)"]   → $ws6
 assign [class="(?i)(?:Soffice)"]   → $ws6
 assign [class="(?i)(?:gedit)"]   → $ws6
 assign [class="(?i)(?:code)"]   → $ws6
-#assign [class="(?i)(?:mousepad)"]   → $ws6
 
 # # W7 #
 assign [class="(?i)(?:VirtualBox)"]   → $ws7
-#assign [class="(?i)(?:remmina)"]   → $ws7
 
 # # W8 #
-assign [class="(?i)(?:anydesk)"]   → $ws8
 
 # # W9 #
 
 
 # # W0 #
-assign [class="(?i)(?:binance)"]   → $ws10
-assign [class="(?i)(?:exodus)"]   → $ws10
-assign [class="(?i)(?:monero)"]   → $ws10
 
 # focus, floating, & sticky
 for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
@@ -336,15 +325,15 @@ bindsym Mod1+F4 kill
 bindsym $Mod+Ctrl+q --release exec --no-startup-id xkill
 
 # logout script
-bindsym $Mod+x exec --no-startup-id $HOME/.bin/rofi_run -l
-bindsym $Mod+g exec --no-startup-id $HOME/.bin/rofi_run -q
+bindsym $Mod+x exec --no-startup-id $HOME/.config/polybar/scripts/powermenu.sh
+bindsym $Mod+g exec --no-startup-id rofi -show window
 
 # launchers
-#bindsym Control+space exec --no-startup-id $HOME/.bin/rofi_run -r
-bindsym $Mod+d exec --no-startup-id $HOME/.bin/rofi_run -r
+#bindsym Control+space exec --no-startup-id $HOME/.config/polybar/scripts/launcher.sh
+bindsym $Mod+d exec --no-startup-id $HOME/.config/polybar/scripts/launcher.sh
 #bindsym $Mod+d exec --no-startup-id rofi -combi-modi window#drun -show combi -modi combi -show-icons -theme "gruvbox-dark-hard" -font "Hack 8"
 bindsym Mod1+F1 exec dmenu_run -fn 'xft:Hack:pixelsize=10' -nb '#191919' -nf '#9ac0cd' -sb '#191919' -sf '#00ff00'
-bindsym $Mod+z exec --no-startup-id morc_menu
+bindsym $Mod+z exec --no-startup-id rofi -show drun -show-icons
 bindsym $Mod+Ctrl+m exec pavucontrol
 
 # Screenshot
@@ -358,9 +347,10 @@ mode "$apps" {
     bindsym w          exec --no-startup-id exo-open --launch WebBrowser
     bindsym f          exec --no-startup-id exo-open --launch FileManager
     bindsym c          exec --no-startup-id code
-    bindsym s          exec --no-startup-id spotify
     bindsym t          exec --no-startup-id telegram-desktop
     bindsym v          exec --no-startup-id virtualbox
+    bindsym l          exec --no-startup-id libreoffice
+    bindsym m          exec --no-startup-id terminator -e cmus
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
