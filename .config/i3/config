@@ -37,6 +37,7 @@ font xft:hack nerd bold 7
 # $Mod = Super or Alt?
 set $Mod Mod4
 #set $Mod Mod1
+set $apps Apps: web (w), files (f), code (c), spotify (s), telegram (t), virtualbox (v)
 
 # direction keys
 set $up i
@@ -149,10 +150,10 @@ default_orientation horizontal
 ##################     Autostart      #####################
 ###########################################################
 
-exec_always --no-startup-id compton --config $HOME/.config/i3/compton.conf
-exec_always --no-startup-id nitrogen --restore; sleep 1; compton -b
+exec_always --no-startup-id sh -c 'command -v picom >/dev/null && picom --config "$HOME/.config/i3/compton.conf" || compton --config "$HOME/.config/i3/compton.conf"'
+exec_always --no-startup-id nitrogen --restore
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-exec_always --no-startup-id feh --bg-fill $HOME/Pictures/1.png
+exec_always --no-startup-id feh --bg-fill $HOME/.config/pictures/1.jpg
 exec_always --no-startup-id nm-applet
 exec_always --no-startup-id numlockx on
 exec_always --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -163,10 +164,10 @@ exec_always --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-ag
 ###########################################################
 
 # hide/unhide i3status bar
-#bindsym $mod+m bar mode toggle
+#bindsym $Mod+m bar mode toggle
 
-bindsym $mod+m exec --no-startup-id xdo hide -N "Polybar"
-bindsym $mod+s exec --no-startup-id xdo show -N "Polybar"
+bindsym $Mod+m exec --no-startup-id xdo hide -N "Polybar"
+bindsym $Mod+s exec --no-startup-id xdo show -N "Polybar"
 
 ################################################################
 ###########          Workspace Bindings          ###############
@@ -196,32 +197,32 @@ workspace $ws9 output $Mon1
 workspace $ws10 output $Mon2
 
 # switch to workspace
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
-bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace $ws10
+bindsym $Mod+1 workspace $ws1
+bindsym $Mod+2 workspace $ws2
+bindsym $Mod+3 workspace $ws3
+bindsym $Mod+4 workspace $ws4
+bindsym $Mod+5 workspace $ws5
+bindsym $Mod+6 workspace $ws6
+bindsym $Mod+7 workspace $ws7
+bindsym $Mod+8 workspace $ws8
+bindsym $Mod+9 workspace $ws9
+bindsym $Mod+0 workspace $ws10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6
-bindsym $mod+Shift+7 move container to workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8
-bindsym $mod+Shift+9 move container to workspace $ws9
-bindsym $mod+Shift+0 move container to workspace $ws10
+bindsym $Mod+Shift+1 move container to workspace $ws1
+bindsym $Mod+Shift+2 move container to workspace $ws2
+bindsym $Mod+Shift+3 move container to workspace $ws3
+bindsym $Mod+Shift+4 move container to workspace $ws4
+bindsym $Mod+Shift+5 move container to workspace $ws5
+bindsym $Mod+Shift+6 move container to workspace $ws6
+bindsym $Mod+Shift+7 move container to workspace $ws7
+bindsym $Mod+Shift+8 move container to workspace $ws8
+bindsym $Mod+Shift+9 move container to workspace $ws9
+bindsym $Mod+Shift+0 move container to workspace $ws10
 
 # switch to next or previous workspace
-bindsym $mod+Mod1+Left workspace prev
-bindsym $mod+Mod1+Right workspace next
+bindsym $Mod+Mod1+Left workspace prev
+bindsym $Mod+Mod1+Right workspace next
 
 ###################################################
 ############    application settings   ############
@@ -244,45 +245,45 @@ for_window [class="(?i)(?:code|Brackets|atom|firefox|google-chrome)"]  focus
 # Assign Applications to specific workspace
 # get class with xprop
 # # W1 #
-#assign [class="(?i)(?:TerminalEmulator)"] → $WS1
+#assign [class="(?i)(?:TerminalEmulator)"] → $ws1
 
 # # W2 #
-assign [class="(?i)(?:firefox)"] → $WS2
-assign [class="(?i)(?:google-chrome)"] → $WS2
+assign [class="(?i)(?:firefox)"] → $ws2
+assign [class="(?i)(?:google-chrome)"] → $ws2
 
 # # W3 #
-#assign [class="(?i)(?:thunar)"]  → $WS3
-assign [class="(?i)(?:pcmanfm)"]  → $WS3
+#assign [class="(?i)(?:thunar)"]  → $ws3
+assign [class="(?i)(?:pcmanfm)"]  → $ws3
 
 # # W4 #
-assign [class="(?i)(?:spotify)"]   → $WS4
-assign [class="(?i)(?:transmission-gtk)"]  → $WS4
+assign [class="(?i)(?:spotify)"]   → $ws4
+assign [class="(?i)(?:transmission-gtk)"]  → $ws4
 
 # # W5 #
-#assign [class="(?i)(?:pidgin)"]  → $WS5
-assign [class="(?i)(?:telegram)"]   → $WS5
+#assign [class="(?i)(?:pidgin)"]  → $ws5
+assign [class="(?i)(?:telegram)"]   → $ws5
 
 # # W6 #
-assign [class="(?i)(?:libreoffice)"]   → $WS6
-assign [class="(?i)(?:Soffice)"]   → $WS6
-assign [class="(?i)(?:gedit)"]   → $WS6
-assign [class="(?i)(?:code)"]   → $WS6
-#assign [class="(?i)(?:mousepad)"]   → $WS6
+assign [class="(?i)(?:libreoffice)"]   → $ws6
+assign [class="(?i)(?:Soffice)"]   → $ws6
+assign [class="(?i)(?:gedit)"]   → $ws6
+assign [class="(?i)(?:code)"]   → $ws6
+#assign [class="(?i)(?:mousepad)"]   → $ws6
 
 # # W7 #
-assign [class="(?i)(?:VirtualBox)"]   → $WS7
-#assign [class="(?i)(?:remmina)"]   → $WS7
+assign [class="(?i)(?:VirtualBox)"]   → $ws7
+#assign [class="(?i)(?:remmina)"]   → $ws7
 
 # # W8 #
-assign [class="(?i)(?:anydesk)"]   → $WS8
+assign [class="(?i)(?:anydesk)"]   → $ws8
 
 # # W9 #
 
 
 # # W0 #
-assign [class="(?i)(?:binance)"]   → $WS0
-assign [class="(?i)(?:exodus)"]   → $WS0
-assign [class="(?i)(?:monero)"]   → $WS0
+assign [class="(?i)(?:binance)"]   → $ws10
+assign [class="(?i)(?:exodus)"]   → $ws10
+assign [class="(?i)(?:monero)"]   → $ws10
 
 # focus, floating, & sticky
 for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
@@ -312,13 +313,13 @@ mode "resize" {
         bindsym Up resize shrink height 10 px or 10 ppt
         bindsym Right resize grow width 10 px or 10 ppt
 
-        # back to normal: Enter or Escape or $mod+r
+        # back to normal: Enter or Escape or $Mod+r
         bindsym Return mode "default"
         bindsym Escape mode "default"
-        bindsym $mod+r mode "default"
+        bindsym $Mod+r mode "default"
 }
 
-bindsym $mod+r mode "resize"
+bindsym $Mod+r mode "resize"
 
 # Workspace back and forth (with/without active container)
 workspace_auto_back_and_forth yes
@@ -332,7 +333,7 @@ workspace_auto_back_and_forth yes
 #bindsym $Mod+Shift+q kill
 bindsym $Mod+q kill
 bindsym Mod1+F4 kill
-bindsym $mod+Ctrl+q --release exec --no-startup-id xkill
+bindsym $Mod+Ctrl+q --release exec --no-startup-id xkill
 
 # logout script
 bindsym $Mod+x exec --no-startup-id $HOME/.bin/rofi_run -l
@@ -340,16 +341,16 @@ bindsym $Mod+g exec --no-startup-id $HOME/.bin/rofi_run -q
 
 # launchers
 #bindsym Control+space exec --no-startup-id $HOME/.bin/rofi_run -r
-bindsym $mod+d exec --no-startup-id $HOME/.bin/rofi_run -r
-#bindsym $mod+d exec --no-startup-id rofi -combi-modi window#drun -show combi -modi combi -show-icons -theme "gruvbox-dark-hard" -font "Hack 8"
+bindsym $Mod+d exec --no-startup-id $HOME/.bin/rofi_run -r
+#bindsym $Mod+d exec --no-startup-id rofi -combi-modi window#drun -show combi -modi combi -show-icons -theme "gruvbox-dark-hard" -font "Hack 8"
 bindsym Mod1+F1 exec dmenu_run -fn 'xft:Hack:pixelsize=10' -nb '#191919' -nf '#9ac0cd' -sb '#191919' -sf '#00ff00'
-bindsym $mod+z exec --no-startup-id morc_menu
-bindsym $mod+Ctrl+m exec pavucontrol
+bindsym $Mod+z exec --no-startup-id morc_menu
+bindsym $Mod+Ctrl+m exec pavucontrol
 
 # Screenshot
-bindsym Print exec --no-startup-id scrot -e 'mv $f /home/jaco/Pictures/shots/'
-bindsym --release Shift+Print exec --no-startup-id scrot -s -e 'mv $f /home/jaco/Pictures/shots/'
-bindsym --release Control+Print exec --no-startup-id scrot -u -e 'mv $f /home/jaco/Pictures/shots/'
+bindsym Print exec --no-startup-id sh -c 'mkdir -p "$HOME/Pictures/shots" && scrot -e "mv \$f $HOME/Pictures/shots/"'
+bindsym --release Shift+Print exec --no-startup-id sh -c 'mkdir -p "$HOME/Pictures/shots" && scrot -s -e "mv \$f $HOME/Pictures/shots/"'
+bindsym --release Control+Print exec --no-startup-id sh -c 'mkdir -p "$HOME/Pictures/shots" && scrot -u -e "mv \$f $HOME/Pictures/shots/"'
 #bindsym Print exec --no-startup-id flameshot gui
 
 # core
@@ -366,10 +367,10 @@ mode "$apps" {
     bindsym Escape mode "default"
 
 }
-bindsym $mod+o mode "$apps"
+bindsym $Mod+o mode "$apps"
 
 #bindsym $Mod+t          exec --no-startup-id exo-open --launch TerminalEmulator
-bindsym $mod+Return 	exec --no-startup-id terminator
+bindsym $Mod+Return 	exec --no-startup-id terminator
 
 # audio
 bindsym XF86AudioPlay        exec --no-startup-id playerctl play-pause
@@ -381,21 +382,21 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id pamixer -i 2
 bindsym XF86AudioLowerVolume exec --no-startup-id pamixer -d 2
 
 # backlight
-bindsym XF86MonBrightnessUp   exec --no-startup-id light -A 10
-bindsym XF86MonBrightnessDown exec --no-startup-id light -U 10
+bindsym XF86MonBrightnessUp   exec --no-startup-id $HOME/.config/bin/brightness up 10
+bindsym XF86MonBrightnessDown exec --no-startup-id $HOME/.config/bin/brightness down 10
 
 ## Manual management of external displays
 # Set the shortcuts and what they do
-set $mode_display Ext Screen: HDMI ON (h), HDMI OFF (o), eDP1 ON (v), eDP1 OFF (x)
+set $mode_display Ext Screen: HDMI ON (h), HDMI OFF (o), eDP ON (v), eDP OFF (x)
 mode "$mode_display" {
-    bindsym v exec --no-startup-id xrandr --output eDP-1 --auto --left-of HDMI-1, mode "default"
-    bindsym h exec --no-startup-id xrandr --output HDMI-1 --auto --right-of eDP-1, mode "default"
-    bindsym x exec --no-startup-id xrandr --output eDP-1 --auto --off, mode "default"
-    bindsym o exec --no-startup-id xrandr --output HDMI-1 --auto --off, mode "default"
+    bindsym v exec --no-startup-id $HOME/.config/bin/display internal-on, mode "default"
+    bindsym h exec --no-startup-id $HOME/.config/bin/display external-on, mode "default"
+    bindsym x exec --no-startup-id $HOME/.config/bin/display internal-off, mode "default"
+    bindsym o exec --no-startup-id $HOME/.config/bin/display external-off, mode "default"
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
 # Declare here the shortcut to bring the display selection menu
-bindsym $mod+Shift+m mode "$mode_display"
+bindsym $Mod+Shift+m mode "$mode_display"

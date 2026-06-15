@@ -1,9 +1,35 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# set up the two monitors for bspwm
-# NOTE This is a simplistic approach because I already know the settings I
-# want to apply.
-external_monitor=$(xrandr --query | grep 'HDMI1')
-if [[ $external_monitor = *connected* ]]; then
-    xrandr --output eDP1 --primary --mode 1366x768 --rotate normal --output HDMI1 --mode 1920x1080i --rotate normal --right-of eDP1
+set -euo pipefail
+
+connected_outputs() {
+    xrandr --query | awk '$2 == "connected" { print $1 }'
+}
+
+internal_output() {
+    connected_outputs | awk '/^(eDP|LVDS)/ { print; exit }'
+}
+
+external_output() {
+    connected_outputs | awk '!/^(eDP|LVDS)/ { print; exit }'
+}
+
+internal="$(internal_output)"
+external="$(external_output)"
+
+[ -n "$internal" ] || exit 0
+
+if [ -n "$external" ]; then
+    xrandr --output "$internal" --primary --auto --output "$external" --auto --right-of "$internal"
+else
+    xrandr --output "$internal" --primary --auto
+fi
+
+if command -v bspc >/dev/null 2>&1; then
+    if [ -n "$external" ]; then
+        bspc monitor "$internal" -d 1 2 3 4 5 6
+        bspc monitor "$external" -d 7 8 9 0
+    else
+        bspc monitor "$internal" -d 1 2 3 4 5 6 7 8 9 0
+    fi
 fi

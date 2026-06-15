@@ -1,5 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+set -euo pipefail
+
 dir="$HOME/.config"
+stamp="$(date +%Y%m%d-%H%M%S)"
 
 usage() {
   cat <<EOF
@@ -19,37 +23,32 @@ if [[ -z $1 || $1 = @(-h|--help) ]]; then
 fi
 
 # move
-set_backup(){
+backup_path() {
+  local path="$1"
 
-  if [ -d "$dir/bspwm" ]; then
-    mv $dir/bspwm $dir/bspwm.bak
+  if [ -e "$path" ] || [ -L "$path" ]; then
+    mv -- "$path" "$path.bak-$stamp"
   fi
-
-  if [ -d "$dir/i3" ]; then
-    mv $dir/i3 $dir/i3.bak
-  fi
-
-  if [ -d "$dir/polybar" ]; then
-    mv $dir/polybar $dir/polybar.bak
-  fi
-
-  if [ -d "$dir/sxhkd" ]; then
-    mv $dir/sxhkd $dir/sxhkd.bak
-  fi
-
-  if [ -f "$HOME/.zshrc" ]; then
-    mv $HOME/.zshrc $HOME/.zshrc.bak
-  fi
-  
 }
 
-set_copy(){
+set_backup() {
+  backup_path "$dir/bspwm"
+  backup_path "$dir/i3"
+  backup_path "$dir/polybar"
+  backup_path "$dir/sxhkd"
+  backup_path "$dir/alias"
+  backup_path "$HOME/.zshrc"
+  backup_path "$HOME/.xinitrc"
+}
 
+set_copy() {
   set_backup
 
-  cp -rv .config/* $dir/
-  cp -rv zshrc $HOME/.zshrc
-  cp -rv .xinitrc $HOME/.xinitrc
+  mkdir -p "$dir"
+  cp -R .config/. "$dir/"
+  cp -f zshrc "$HOME/.zshrc"
+  cp -f .xinitrc "$HOME/.xinitrc"
+  chmod +x "$dir"/bspwm/bspwmrc "$dir"/bspwm/autostart "$dir"/bspwm/dual_monitor "$dir"/.touchpad.sh "$dir"/bin/* "$dir"/polybar/launch.sh "$dir"/polybar/scripts/*
 }
 
 case "$1" in

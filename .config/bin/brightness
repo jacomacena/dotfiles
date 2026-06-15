@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+step="${2:-5}"
+
+case "${1:-}" in
+    up)
+        if command -v brightnessctl >/dev/null 2>&1; then
+            brightnessctl set "${step}%+" >/dev/null
+        elif command -v light >/dev/null 2>&1; then
+            light -A "$step"
+        else
+            xbacklight -inc "$step"
+        fi
+        ;;
+    down)
+        if command -v brightnessctl >/dev/null 2>&1; then
+            brightnessctl set "${step}%-" >/dev/null
+        elif command -v light >/dev/null 2>&1; then
+            light -U "$step"
+        else
+            xbacklight -dec "$step"
+        fi
+        ;;
+    *)
+        exit 64
+        ;;
+esac

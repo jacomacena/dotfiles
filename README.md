@@ -7,11 +7,13 @@ Steps:
 \# ./install.sh -i
 
 ## Explicitly installed packages
-compton
-spotify
+picom
 numlockx
 nm-applet
 feh
+xorg-xrandr
+xorg-xinput
+brightnessctl
 polkit-gnome
 terminator
 pcmanfm
@@ -21,9 +23,6 @@ gedit
 code
 virtualbox
 anydesk
-binance
-exodus
-monero
 nitrogen
 playerctl
 pamixer

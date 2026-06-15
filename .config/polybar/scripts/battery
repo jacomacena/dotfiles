@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+battery="$(find /sys/class/power_supply -maxdepth 1 -type l -name 'BAT*' | sort | head -n 1)"
+[ -n "$battery" ] || exit 0
+
+capacity="$(cat "$battery/capacity")"
+status="$(cat "$battery/status")"
+
+if [ "$status" = "Charging" ]; then
+    icon=""
+elif [ "$capacity" -ge 80 ]; then
+    icon=""
+elif [ "$capacity" -ge 60 ]; then
+    icon=""
+elif [ "$capacity" -ge 40 ]; then
+    icon=""
+elif [ "$capacity" -ge 20 ]; then
+    icon=""
+else
+    icon=""
+fi
+
+printf '%s %s%%\n' "$icon" "$capacity"

@@ -125,21 +125,21 @@ XF86Audio{Prev,Play,Next}
 	playerctl {previous,play-pause,next}
 
 XF86Audio{Mute,RaiseVolume,LowerVolume}
-	amixer set Master {toggle,5%+,5%-}
+	pamixer {-t,-i 5,-d 5}
 
 # brilho
 XF86MonBrightness{Down,Up}
-	light {-U 5, -A 5}
+	~/.config/bin/brightness {down,up} 5
 
 # CUSTOM
 super o; {w,f,c,s,t,v}
 	{firefox,pcmanfm,code,spotify,telegram-desktop,virtualbox}
 
 Print
-  scrot '%d-%m-%Y_%H:%M_$wx$h.png' -e 'mv $f ~/Pictures/shots/'
+  mkdir -p ~/Pictures/shots && scrot '%d-%m-%Y_%H:%M_$wx$h.png' -e 'mv $f ~/Pictures/shots/'
 
 control + Print
-  scrot -s '%Y-%m-%d_%H:%M_$wx$h.png' -e 'mv $f ~/Pictures/shots/'
+  mkdir -p ~/Pictures/shots && scrot -s '%Y-%m-%d_%H:%M_$wx$h.png' -e 'mv $f ~/Pictures/shots/'
 
 ctrl + shift + Print
-  scrot -u '%Y-%m-%d_%H:%M_$wx$h.png' -e 'mv $f ~/Pictures/shots/'
+  mkdir -p ~/Pictures/shots && scrot -u '%Y-%m-%d_%H:%M_$wx$h.png' -e 'mv $f ~/Pictures/shots/'

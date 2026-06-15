@@ -1,11 +1,10 @@
 #! /bin/sh
 
+# MONITOR
+$HOME/.config/bspwm/dual_monitor
+
 # AUTOSTART
 $HOME/.config/bspwm/autostart
-
-# MONITOR
-bspc monitor eDP1 -d 1 2 3 4 5 6
-bspc monitor HDMI1 -d 7 8 9 0
 
 # GENERAL
 bspc config automatic_scheme            longest_side #spiral
@@ -33,7 +32,7 @@ bspc config presel_feedback_color       "#839496"
 # RULES
 
 # external
-bspc config external_rules_command "$HOME/.config/bspwm/spotify_rule"
+bspc config external_rules_command "$HOME/.config/bspwm/spot_rule"
 
 # # W1 #
 bspc rule -a Terminator               state=floating

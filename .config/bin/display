@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+connected_outputs() {
+    xrandr --query | awk '$2 == "connected" { print $1 }'
+}
+
+internal="$(connected_outputs | awk '/^(eDP|LVDS)/ { print; exit }')"
+external="$(connected_outputs | awk '!/^(eDP|LVDS)/ { print; exit }')"
+
+[ -n "$internal" ] || exit 0
+
+case "${1:-}" in
+    external-on)
+        [ -n "$external" ] && xrandr --output "$internal" --primary --auto --output "$external" --auto --right-of "$internal"
+        ;;
+    external-off)
+        [ -n "$external" ] && xrandr --output "$external" --off --output "$internal" --primary --auto
+        ;;
+    internal-on)
+        xrandr --output "$internal" --primary --auto
+        ;;
+    internal-off)
+        [ -n "$external" ] && xrandr --output "$external" --auto --output "$internal" --off
+        ;;
+    *)
+        exit 64
+        ;;
+esac
+
+pgrep -x polybar >/dev/null && "$HOME/.config/polybar/launch.sh"
