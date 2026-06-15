@@ -1,4 +1,4 @@
-# dotfiles my pc
+# Dotfiles
 
 Steps:
 
@@ -6,8 +6,19 @@ Steps:
 
 \# ./install.sh -i
 
+## Window managers
+
+- i3wm: `.config/i3/config`
+- Hyprland: `.config/hypr/hyprland.conf`
+- SDDM/session selection: configured by `pos_arch.sh` through `~/.dmrc`
+
 ## Explicitly installed packages
 picom
+hyprland
+waybar
+swww
+grim
+slurp
 numlockx
 nm-applet
 feh

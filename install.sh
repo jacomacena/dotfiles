@@ -12,7 +12,7 @@ usage: ${0##*/} [flags] [options]
 
   Options:
 
-    --install, -i			 Install all dotfiles (I3/BSPWM)
+    --install, -i			 Install all dotfiles (i3wm/Hyprland)
     --help, -h				 Show this is message
 EOF
 }
@@ -32,23 +32,30 @@ backup_path() {
 }
 
 set_backup() {
-  backup_path "$dir/bspwm"
   backup_path "$dir/i3"
+  backup_path "$dir/hypr"
   backup_path "$dir/polybar"
-  backup_path "$dir/sxhkd"
   backup_path "$dir/alias"
+  backup_path "$dir/bin"
+  backup_path "$dir/pictures"
+  backup_path "$dir/zsh"
   backup_path "$HOME/.zshrc"
-  backup_path "$HOME/.xinitrc"
 }
 
 set_copy() {
   set_backup
 
   mkdir -p "$dir"
-  cp -R .config/. "$dir/"
+  cp -R .config/i3 "$dir/"
+  cp -R .config/hypr "$dir/"
+  cp -R .config/polybar "$dir/"
+  cp -R .config/alias "$dir/"
+  cp -R .config/bin "$dir/"
+  cp -R .config/pictures "$dir/"
+  cp -R .config/zsh "$dir/"
+  cp -f .config/.touchpad.sh "$dir/.touchpad.sh"
   cp -f zshrc "$HOME/.zshrc"
-  cp -f .xinitrc "$HOME/.xinitrc"
-  chmod +x "$dir"/bspwm/bspwmrc "$dir"/bspwm/autostart "$dir"/bspwm/dual_monitor "$dir"/.touchpad.sh "$dir"/bin/* "$dir"/polybar/launch.sh "$dir"/polybar/scripts/*
+  chmod +x "$dir"/.touchpad.sh "$dir"/bin/* "$dir"/polybar/launch.sh "$dir"/polybar/scripts/*
 }
 
 case "$1" in
