@@ -2,6 +2,7 @@
 
 set -euo pipefail
 
+repo_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 dir="$HOME/.config"
 stamp="$(date +%Y%m%d-%H%M%S)"
 
@@ -17,7 +18,7 @@ usage: ${0##*/} [flags] [options]
 EOF
 }
 
-if [[ -z $1 || $1 = @(-h|--help) ]]; then
+if [[ $# -eq 0 || ${1:-} = @(-h|--help) ]]; then
   usage
   exit $(( $# ? 0 : 1 ))
 fi
@@ -28,11 +29,14 @@ backup_path() {
 
   if [ -e "$path" ] || [ -L "$path" ]; then
     mv -- "$path" "$path.bak-$stamp"
+    printf 'backup: %s -> %s\n' "$path" "$path.bak-$stamp"
   fi
 }
 
 set_backup() {
   backup_path "$dir/i3"
+  backup_path "$dir/bspwm"
+  backup_path "$dir/sxhkd"
   backup_path "$dir/hypr"
   backup_path "$dir/polybar"
   backup_path "$dir/alias"
@@ -40,22 +44,27 @@ set_backup() {
   backup_path "$dir/pictures"
   backup_path "$dir/zsh"
   backup_path "$HOME/.zshrc"
+  backup_path "$HOME/.xinitrc"
 }
 
 set_copy() {
   set_backup
 
   mkdir -p "$dir"
-  cp -R .config/i3 "$dir/"
-  cp -R .config/hypr "$dir/"
-  cp -R .config/polybar "$dir/"
-  cp -R .config/alias "$dir/"
-  cp -R .config/bin "$dir/"
-  cp -R .config/pictures "$dir/"
-  cp -R .config/zsh "$dir/"
-  cp -f .config/.touchpad.sh "$dir/.touchpad.sh"
-  cp -f zshrc "$HOME/.zshrc"
+  cp -R "$repo_dir/.config/i3" "$dir/"
+  cp -R "$repo_dir/.config/bspwm" "$dir/"
+  cp -R "$repo_dir/.config/sxhkd" "$dir/"
+  cp -R "$repo_dir/.config/hypr" "$dir/"
+  cp -R "$repo_dir/.config/polybar" "$dir/"
+  cp -R "$repo_dir/.config/alias" "$dir/"
+  cp -R "$repo_dir/.config/bin" "$dir/"
+  cp -R "$repo_dir/.config/pictures" "$dir/"
+  cp -R "$repo_dir/.config/zsh" "$dir/"
+  cp -f "$repo_dir/.config/.touchpad.sh" "$dir/.touchpad.sh"
+  cp -f "$repo_dir/zshrc" "$HOME/.zshrc"
+  cp -f "$repo_dir/.xinitrc" "$HOME/.xinitrc"
   chmod +x "$dir"/.touchpad.sh "$dir"/bin/* "$dir"/polybar/launch.sh "$dir"/polybar/scripts/*
+  printf 'installed dotfiles to %s\n' "$dir"
 }
 
 case "$1" in
